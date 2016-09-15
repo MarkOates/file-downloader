@@ -12,6 +12,9 @@
 
 class FileDownloader
 {
+private:
+   static size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream);
+
 public:
    enum download_status_t
    {
