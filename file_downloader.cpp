@@ -5,7 +5,8 @@
 #include "file_downloader.h"
 
 #include <curl/curl.h>
-
+#include <iostream>
+#include <fstream>
 
 
 
@@ -96,6 +97,7 @@ bool FileDownloader::clear_history()
 FileDownloader::FileHandle FileDownloader::download_file(std::string file_url, std::string local_filename)
 {
    FileHandle file_handle(file_url, local_filename);
+   std::string temp_filename = std::string(local_filename).insert(0, "~");
    CURL *curl = nullptr;
    FILE *file_pointer = nullptr;
    CURLcode res;
@@ -108,7 +110,7 @@ FileDownloader::FileHandle FileDownloader::download_file(std::string file_url, s
       return file_handle;
    }
 
-   file_pointer = fopen(local_filename.c_str(), "wb");
+   file_pointer = fopen(temp_filename.c_str(), "wb");
    curl_easy_setopt(curl, CURLOPT_URL, file_url.c_str());
    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, FileDownloader::write_data);
    curl_easy_setopt(curl, CURLOPT_WRITEDATA, file_pointer);
@@ -122,8 +124,15 @@ FileDownloader::FileHandle FileDownloader::download_file(std::string file_url, s
       switch (http_response_code)
       {
       case 200:
-         file_handle.status = DOWNLOADED;
-         file_handle.percentage = 1.0;
+         {
+            // copy the temp file to the destination
+            std::ifstream src(temp_filename, std::ios::binary);
+            std::ofstream dst(local_filename, std::ios::binary);
+            dst << src.rdbuf();
+
+            file_handle.status = DOWNLOADED;
+            file_handle.percentage = 1.0;
+         }
          break;
       case 404:
       default:
@@ -138,7 +147,10 @@ FileDownloader::FileHandle FileDownloader::download_file(std::string file_url, s
       file_handle.error = curl_easy_strerror(res);
    }
 
-   /* always cleanup */
+   // erase the temp file
+   remove(temp_filename.c_str());
+
+   // cleanup the curl session
    curl_easy_cleanup(curl);
    fclose(file_pointer);
 
