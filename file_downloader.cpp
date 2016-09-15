@@ -39,7 +39,7 @@ float FileDownloader::FileHandle::get_percentage()
 
 FileDownloader::download_status_t FileDownloader::FileHandle::get_status()
 {
-   return NONE;
+   return status;
 }
 
 
