@@ -100,14 +100,13 @@ FileDownloader::FileHandle FileDownloader::download_file(std::string file_url, s
    CURL *curl;
    FILE *fp;
    CURLcode res;
-   char *url = "http://localhost/aaa.txt";
-   char outfilename[FILENAME_MAX] = "C:\\bbb.txt";
    curl = curl_easy_init();
+
    if (curl)
    {
-      fp = fopen(outfilename,"wb");
-      curl_easy_setopt(curl, CURLOPT_URL, url);
-      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+      fp = fopen(local_filename.c_str(), "wb");
+      curl_easy_setopt(curl, CURLOPT_URL, file_url.c_str());
+      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, FileDownloader::write_data);
       curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
       res = curl_easy_perform(curl);
       /* always cleanup */
@@ -116,6 +115,7 @@ FileDownloader::FileHandle FileDownloader::download_file(std::string file_url, s
    }
    else
    {
+      file_handle.status = ERROR;
    }
 
    return file_handle;
