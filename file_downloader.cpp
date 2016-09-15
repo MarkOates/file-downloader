@@ -10,6 +10,12 @@
 
 
 FileDownloader::FileHandle::FileHandle(std::string file_url, std::string local_filename)
+   : id(last_id++)
+   , status(NONE)
+   , percentage(0.0)
+   , file_url(file_url)
+   , local_filename(local_filename)
+   , error("")
 {
 }
 
@@ -92,6 +98,11 @@ FileDownloader::FileHandle FileDownloader::download_file(std::string file_url, s
    FileHandle file_handle(file_url, local_filename);
    return file_handle;
 }
+
+
+
+
+int FileDownloader::FileHandle::last_id = -1;
 
 
 

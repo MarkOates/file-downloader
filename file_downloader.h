@@ -24,6 +24,7 @@ public:
    class FileHandle
    {
    private:
+      static int last_id;
       int id;
       download_status_t status;
       float percentage;
