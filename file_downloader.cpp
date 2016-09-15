@@ -185,12 +185,12 @@ size_t FileDownloader::write_data(void *ptr, size_t size, size_t nmemb, FILE *st
 int FileDownloader::progress_function(void *ptr, double download_total, double download_now, double upload_total, double upload_now)
 {
    FileDownloader::FileHandle &handle = *static_cast<FileDownloader::FileHandle *>(ptr);
-   if (download_total != 0)
-   {
-      handle.status = DOWNLOADING;
-      handle.percentage = download_now / download_total;
-      handle.download_size = download_total;
-   }
+   if (download_total == 0) return 0;
+
+   handle.status = DOWNLOADING;
+   handle.percentage = download_now / download_total;
+   handle.download_size = download_total;
+
    return 0;
 }
 
