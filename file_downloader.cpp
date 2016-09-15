@@ -41,7 +41,7 @@ float FileDownloader::FileHandle::get_download_size()
 
 float FileDownloader::FileHandle::get_percentage()
 {
-   return -1.0;
+   return percentage;
 }
 
 
