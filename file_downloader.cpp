@@ -13,6 +13,7 @@
 FileDownloader::FileHandle::FileHandle(std::string file_url, std::string local_filename)
    : id(last_id++)
    , status(NONE)
+   , download_size(0.0)
    , percentage(0.0)
    , file_url(file_url)
    , local_filename(local_filename)
@@ -25,6 +26,14 @@ FileDownloader::FileHandle::FileHandle(std::string file_url, std::string local_f
 
 FileDownloader::FileHandle::~FileHandle()
 {
+}
+
+
+
+
+float FileDownloader::FileHandle::get_download_size()
+{
+   return download_size;
 }
 
 

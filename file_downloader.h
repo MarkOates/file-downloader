@@ -32,6 +32,7 @@ public:
       static int last_id;
       int id;
       download_status_t status;
+      float download_size;
       float percentage;
       std::string file_url;
       std::string local_filename;
@@ -41,6 +42,7 @@ public:
       FileHandle(std::string file_url, std::string local_filename);
       ~FileHandle();
 
+      float get_download_size();
       float get_percentage();
       download_status_t get_status();
       std::string get_local_filename();
