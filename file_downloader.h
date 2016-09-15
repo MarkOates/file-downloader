@@ -59,15 +59,4 @@ public:
 
 
 
-/*
-int main()
-{
-   std::string file_url = "https://www.allegro.cc/theme/default/image/logo.png";
-   FileDownloader::FileHandle handle = FileDownloader::download_file(file_url);
-}
-*/
-
-
-
-
 #endif
