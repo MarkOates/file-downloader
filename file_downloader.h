@@ -14,6 +14,10 @@ class FileDownloader
 {
 private:
    static size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream);
+   static int progress_function(void *ptr,
+         double download_total, double download_now,
+         double upload_total, double upload_now
+         );
 
 public:
    enum download_status_t

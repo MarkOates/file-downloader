@@ -123,6 +123,10 @@ FileDownloader::FileHandle FileDownloader::download_file(std::string file_url, s
    curl_easy_setopt(curl, CURLOPT_URL, file_url.c_str());
    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, FileDownloader::write_data);
    curl_easy_setopt(curl, CURLOPT_WRITEDATA, file_pointer);
+   curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0);
+   curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, progress_function);
+   curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, &file_handle);
+
    res = curl_easy_perform(curl);
 
    if (res == CURLE_OK)
@@ -174,6 +178,22 @@ size_t FileDownloader::write_data(void *ptr, size_t size, size_t nmemb, FILE *st
    size_t written = fwrite(ptr, size, nmemb, stream);
    return written;
 }
+
+
+
+
+int FileDownloader::progress_function(void *ptr, double download_total, double download_now, double upload_total, double upload_now)
+{
+   FileDownloader::FileHandle &handle = *static_cast<FileDownloader::FileHandle *>(ptr);
+   if (download_total != 0)
+   {
+      handle.status = DOWNLOADING;
+      handle.percentage = download_now / download_total;
+      handle.download_size = download_total;
+   }
+   return 0;
+}
+
 
 
 
