@@ -96,7 +96,6 @@ bool FileDownloader::clear_history()
 FileDownloader::FileHandle FileDownloader::download_file(std::string file_url, std::string local_filename)
 {
    FileHandle file_handle(file_url, local_filename);
-
    CURL *curl = nullptr;
    FILE *file_pointer = nullptr;
    CURLcode res;
