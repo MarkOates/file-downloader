@@ -26,6 +26,8 @@ public:
 
    class FileHandle
    {
+   friend class FileDownloader;
+
    private:
       static int last_id;
       int id;
