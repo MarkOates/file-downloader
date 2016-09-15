@@ -102,46 +102,46 @@ FileDownloader::FileHandle FileDownloader::download_file(std::string file_url, s
    CURLcode res;
    curl = curl_easy_init();
 
-   if (curl)
+   if (!curl)
    {
-      file_pointer = fopen(local_filename.c_str(), "wb");
-      curl_easy_setopt(curl, CURLOPT_URL, file_url.c_str());
-      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, FileDownloader::write_data);
-      curl_easy_setopt(curl, CURLOPT_WRITEDATA, file_pointer);
-      res = curl_easy_perform(curl);
+      file_handle.status = ERROR;
+      file_handle.error = "CURL initialization error";
+      return file_handle;
+   }
 
-      if (res == CURLE_OK)
-      {
-         long http_response_code = 0;
-         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_response_code);
+   file_pointer = fopen(local_filename.c_str(), "wb");
+   curl_easy_setopt(curl, CURLOPT_URL, file_url.c_str());
+   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, FileDownloader::write_data);
+   curl_easy_setopt(curl, CURLOPT_WRITEDATA, file_pointer);
+   res = curl_easy_perform(curl);
 
-         switch (http_response_code)
-         {
-         case 200:
-            file_handle.status = DOWNLOADED;
-            file_handle.percentage = 1.0;
-            break;
-         case 404:
-         default:
-            file_handle.status = ERROR;
-            file_handle.error = std::to_string(http_response_code);
-            break;
-         }
-      }
-      else
+   if (res == CURLE_OK)
+   {
+      long http_response_code = 0;
+      curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_response_code);
+
+      switch (http_response_code)
       {
+      case 200:
+         file_handle.status = DOWNLOADED;
+         file_handle.percentage = 1.0;
+         break;
+      case 404:
+      default:
          file_handle.status = ERROR;
-         file_handle.error = curl_easy_strerror(res);
+         file_handle.error = std::to_string(http_response_code);
+         break;
       }
-
-      /* always cleanup */
-      curl_easy_cleanup(curl);
-      fclose(file_pointer);
    }
    else
    {
       file_handle.status = ERROR;
+      file_handle.error = curl_easy_strerror(res);
    }
+
+   /* always cleanup */
+   curl_easy_cleanup(curl);
+   fclose(file_pointer);
 
    return file_handle;
 }
