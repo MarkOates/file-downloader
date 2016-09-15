@@ -97,21 +97,21 @@ FileDownloader::FileHandle FileDownloader::download_file(std::string file_url, s
 {
    FileHandle file_handle(file_url, local_filename);
 
-   CURL *curl;
-   FILE *fp;
+   CURL *curl = nullptr;
+   FILE *file_pointer = nullptr;
    CURLcode res;
    curl = curl_easy_init();
 
    if (curl)
    {
-      fp = fopen(local_filename.c_str(), "wb");
+      file_pointer = fopen(local_filename.c_str(), "wb");
       curl_easy_setopt(curl, CURLOPT_URL, file_url.c_str());
       curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, FileDownloader::write_data);
-      curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
+      curl_easy_setopt(curl, CURLOPT_WRITEDATA, file_pointer);
       res = curl_easy_perform(curl);
       /* always cleanup */
       curl_easy_cleanup(curl);
-      fclose(fp);
+      fclose(file_pointer);
    }
    else
    {
