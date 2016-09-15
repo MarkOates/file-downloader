@@ -63,7 +63,7 @@ bool FileDownloader::FileHandle::erase_downloaded_file()
 
 std::string FileDownloader::FileHandle::get_error()
 {
-   return "";
+   return error;
 }
 
 
