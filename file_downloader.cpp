@@ -25,6 +25,7 @@ FileDownloader::FileHandle::~FileHandle()
 
 float FileDownloader::FileHandle::get_percentage()
 {
+   return -1.0;
 }
 
 
@@ -32,6 +33,7 @@ float FileDownloader::FileHandle::get_percentage()
 
 FileDownloader::download_status_t FileDownloader::FileHandle::get_status()
 {
+   return NONE;
 }
 
 
@@ -39,6 +41,7 @@ FileDownloader::download_status_t FileDownloader::FileHandle::get_status()
 
 std::string FileDownloader::FileHandle::get_local_filename()
 {
+   return local_filename;
 }
 
 
@@ -46,6 +49,7 @@ std::string FileDownloader::FileHandle::get_local_filename()
 
 bool FileDownloader::FileHandle::erase_downloaded_file()
 {
+   return false;
 }
 
 
@@ -53,6 +57,7 @@ bool FileDownloader::FileHandle::erase_downloaded_file()
 
 std::string FileDownloader::FileHandle::get_error()
 {
+   return "";
 }
 
 
@@ -60,6 +65,7 @@ std::string FileDownloader::FileHandle::get_error()
 
 int FileDownloader::num_downloading_files()
 {
+   return -1;
 }
 
 
@@ -67,6 +73,7 @@ int FileDownloader::num_downloading_files()
 
 bool FileDownloader::clear_all_downloaded_files()
 {
+   return false;
 }
 
 
@@ -74,6 +81,7 @@ bool FileDownloader::clear_all_downloaded_files()
 
 bool FileDownloader::clear_history()
 {
+   return false;
 }
 
 
@@ -81,6 +89,8 @@ bool FileDownloader::clear_history()
 
 FileDownloader::FileHandle FileDownloader::download_file(std::string file_url, std::string local_filename)
 {
+   FileHandle file_handle(file_url, local_filename);
+   return file_handle;
 }
 
 
