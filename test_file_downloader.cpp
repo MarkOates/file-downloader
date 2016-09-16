@@ -90,3 +90,25 @@ BOOST_AUTO_TEST_CASE(FileDownloader_will_set_an_error_message_of_404_when_a_file
 
 
 
+BOOST_AUTO_TEST_CASE(FileDownloader_will_set_an_ERROR_status_on_an_invalid_URL)
+{
+   std::string invalid_file_url = "htxs//wINVALID_URL_ww..cc.png";
+   FileDownloader::FileHandle handle = FileDownloader::download_file(invalid_file_url, "");
+
+   BOOST_CHECK_EQUAL(FileDownloader::ERROR, handle.get_status());
+}
+
+
+
+
+BOOST_AUTO_TEST_CASE(FileDownloader_will_set_an_error_message_on_an_invalid_URL)
+{
+   std::string invalid_file_url = "htxs//www..cc.png";
+   FileDownloader::FileHandle handle = FileDownloader::download_file(invalid_file_url, "");
+
+   BOOST_CHECK_EQUAL("Couldn't resolve host name", handle.get_error());
+}
+
+
+
+
