@@ -14,17 +14,10 @@
 
 
 
-int add(int i, int j)
+BOOST_AUTO_TEST_CASE(FileHandle_get_local_filename_returns_the_local_filename)
 {
-   return i + j;
-}
-
-
-
-
-BOOST_AUTO_TEST_CASE(universeInOrder)
-{
-   BOOST_CHECK(add(2, 2) == 4);
+   FileDownloader::FileHandle handle("", "a_local_filename.htm");
+   BOOST_CHECK_EQUAL("a_local_filename.htm", handle.get_local_filename());
 }
 
 
