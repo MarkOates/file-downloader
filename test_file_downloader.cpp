@@ -32,3 +32,21 @@ BOOST_AUTO_TEST_CASE(FileHandle_get_file_url_returns_the_file_url)
 
 
 
+BOOST_AUTO_TEST_CASE(FileDownloader_with_no_URL_will_return_an_error_status)
+{
+   FileDownloader::FileHandle handle = FileDownloader::download_file("", "");
+   BOOST_CHECK_EQUAL(FileDownloader::ERROR, handle.get_status());
+}
+
+
+
+
+BOOST_AUTO_TEST_CASE(FileDownloader_with_no_URL_will_return_an_error_message)
+{
+   FileDownloader::FileHandle handle = FileDownloader::download_file("", "");
+   BOOST_CHECK_EQUAL("URL using bad/illegal format or missing URL", handle.get_error());
+}
+
+
+
+
