@@ -66,6 +66,20 @@ BOOST_AUTO_TEST_CASE(FileDownloader_will_download_a_remote_file)
 
 
 
+BOOST_AUTO_TEST_CASE(FileDownloader_will_set_DOWNLOADED_status_on_a_successful_download)
+{
+   std::string file_url = "https://www.allegro.cc/theme/default/image/logo.png";
+   std::string local_filename = "logo.png";
+   FileDownloader::FileHandle handle = FileDownloader::download_file(file_url, local_filename);
+
+   BOOST_CHECK_EQUAL(FileDownloader::DOWNLOADED, handle.get_status());
+
+   remove(local_filename.c_str());
+}
+
+
+
+
 BOOST_AUTO_TEST_CASE(FileDownloader_will_set_an_error_status_when_a_file_url_does_not_exist)
 {
    std::string file_url = "https://www.allegro.cc/this_file_does_not_exist.png";
