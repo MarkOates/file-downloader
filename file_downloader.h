@@ -51,6 +51,7 @@ public:
       float get_percentage();
       bool abort_download();
       download_status_t get_status();
+      std::string get_file_url();
       std::string get_local_filename();
       bool erase_downloaded_file();
       std::string get_error();

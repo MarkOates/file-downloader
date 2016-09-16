@@ -65,6 +65,14 @@ FileDownloader::download_status_t FileDownloader::FileHandle::get_status()
 
 
 
+std::string FileDownloader::FileHandle::get_file_url()
+{
+   return file_url;
+}
+
+
+
+
 std::string FileDownloader::FileHandle::get_local_filename()
 {
    return local_filename;
