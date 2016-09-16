@@ -66,3 +66,27 @@ BOOST_AUTO_TEST_CASE(FileDownloader_will_download_a_remote_file)
 
 
 
+BOOST_AUTO_TEST_CASE(FileDownloader_will_set_an_error_status_when_a_file_url_does_not_exist)
+{
+   std::string file_url = "https://www.allegro.cc/this_file_does_not_exist.png";
+   std::string local_filename = "";
+   FileDownloader::FileHandle handle = FileDownloader::download_file(file_url, local_filename);
+
+   BOOST_CHECK_EQUAL(FileDownloader::ERROR, handle.get_status());
+}
+
+
+
+
+BOOST_AUTO_TEST_CASE(FileDownloader_will_set_an_error_message_of_404_when_a_file_url_does_not_exist)
+{
+   std::string file_url = "https://www.allegro.cc/this_file_does_not_exist.png";
+   std::string local_filename = "";
+   FileDownloader::FileHandle handle = FileDownloader::download_file(file_url, local_filename);
+
+   BOOST_CHECK_EQUAL("404", handle.get_error());
+}
+
+
+
+
