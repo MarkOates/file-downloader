@@ -50,6 +50,7 @@ public:
       float get_download_size();
       float get_percentage();
       bool abort_download();
+      bool is_done();
       download_status_t get_status();
       std::string get_file_url();
       std::string get_local_filename();

@@ -57,6 +57,14 @@ bool FileDownloader::FileHandle::abort_download()
 
 
 
+bool FileDownloader::FileHandle::is_done()
+{
+   return status == DOWNLOADED || status == ERROR;
+}
+
+
+
+
 FileDownloader::download_status_t FileDownloader::FileHandle::get_status()
 {
    return status;
