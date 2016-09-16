@@ -47,6 +47,16 @@ float FileDownloader::FileHandle::get_percentage()
 
 
 
+bool FileDownloader::FileHandle::abort_download()
+{
+   if (abort) return false;
+   abort = true;
+   return true;
+}
+
+
+
+
 FileDownloader::download_status_t FileDownloader::FileHandle::get_status()
 {
    return status;
@@ -186,6 +196,7 @@ int FileDownloader::progress_function(void *ptr, double download_total, double d
 {
    FileDownloader::FileHandle &handle = *static_cast<FileDownloader::FileHandle *>(ptr);
    if (download_total == 0) return 0;
+   if (handle.abort) return 1;
 
    handle.status = DOWNLOADING;
    handle.percentage = download_now / download_total;

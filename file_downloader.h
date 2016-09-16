@@ -38,6 +38,7 @@ public:
       download_status_t status;
       float download_size;
       float percentage;
+      bool abort;
       std::string file_url;
       std::string local_filename;
       std::string error;
@@ -48,6 +49,7 @@ public:
 
       float get_download_size();
       float get_percentage();
+      bool abort_download();
       download_status_t get_status();
       std::string get_local_filename();
       bool erase_downloaded_file();
